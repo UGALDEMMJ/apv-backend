@@ -28,6 +28,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/veterinarios", VeterinarioRoutes);
 app.use("/api/pacientes", pacienteRoutes);
+app.options('*', cors());
 
 const PORT = process.env.PORT || 4000;  
 
