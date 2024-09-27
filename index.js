@@ -13,24 +13,25 @@ dotenv.config();
 conectarDB();
 
 const dominiosPermitidos = [process.env.FRONTEND_URL];
-const corsOptions={
-    origin: function(origin, callback){
-        if(dominiosPermitidos.indexOf(origin) !== -1){
-            //El origen del request es permitido
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || dominiosPermitidos.indexOf(origin) !== -1) {
             callback(null, true);
-        }else{
+        } else {
             callback(new Error('No permitido por CORS'));
         }
     }
-}
+};
 
+// Habilitar CORS con las opciones configuradas
 app.use(cors(corsOptions));
+app.options('*', cors()); // Manejar solicitudes OPTIONS para preflight
 
+// Rutas
 app.use("/api/veterinarios", VeterinarioRoutes);
 app.use("/api/pacientes", pacienteRoutes);
-app.options('*', cors());
 
-const PORT = process.env.PORT || 4000;  
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Servidor funcionando en el puerto ${PORT}`);
